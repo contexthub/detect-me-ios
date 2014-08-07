@@ -23,7 +23,7 @@ NSString * const CCHEventStateBeaconChangedNear = @"near_state";
 NSString * const CCHEventStateBeaconChangedFar = @"far_state";
 
 NSString * const CCHBeaconEventKeyPath = @"event.data.beacon";
-NSString * const CCHBeaconEventIDKeyPath = @"event.data.beacon.id";
+NSString * const CCHBeaconEventIDKeyPath = @"event.data.beacon.name";
 NSString * const CCHBeaconEventUUIDKeyPath = @"event.data.beacon.uuid";
 NSString * const CCHBeaconEventMajorValueKeyPath = @"event.data.beacon.major";
 NSString * const CCHBeaconEventMinorValueKeyPath = @"event.data.beacon.minor";

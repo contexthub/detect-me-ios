@@ -33,6 +33,8 @@
     //This tells ContextHub about the tags you will use to identify the Beacons that you want to automatically monitor.
     if (![[CCHSensorPipeline sharedInstance] addSubscriptionForTags:@[DMBeaconTag]]) {
         NSLog(@"DM: Failed to add subscription to \"%@\" tag", DMBeaconTag);
+    } else {
+        NSLog(@"DM: Subscribed to tag \"%@\" tag", DMBeaconTag);
     }
     
     return YES;

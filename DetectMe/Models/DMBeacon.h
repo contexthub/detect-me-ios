@@ -21,6 +21,5 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (void)updateUUID:(NSString *)uuidString major:(CLBeaconMajorValue)major minor:(CLBeaconMinorValue)minor identifier:(NSString *)identifier;
-- (NSDictionary *)dictionaryForBeacon;
 
 @end
