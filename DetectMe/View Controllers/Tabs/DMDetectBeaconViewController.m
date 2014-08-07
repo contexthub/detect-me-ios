@@ -10,7 +10,7 @@
 #import <ContextHub/ContextHub.h>
 
 #import "DMBeacon.h"
-#import "DMBeaconStore.h"
+#import "DMConstants.h"
 
 #import "DMBeaconCell.h"
 #import "DMEditBeaconViewController.h"
@@ -23,23 +23,55 @@
 
 @implementation DMDetectBeaconViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.beaconArray = [NSMutableArray array];
+    
+    self.verboseContextHubLogging = YES; // Verbose logging shows all responses from ContextHub
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     // Do initial data sync
-    [[DMBeaconStore sharedInstance] syncBeacons];
+    [self refreshBeacons];
     
     // Register to listen to notification about sensor pipeline posting events
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleEvent:) name:CCHSensorPipelineDidPostEvent object:nil];
-    
-    // Register to listen to notifications about beacon sync being completed
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCompleted:) name:(NSString *)DMBeaconSyncCompletedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Beacons
+
+- (void)refreshBeacons {
+    [[CCHBeaconService sharedInstance] getBeaconsWithTags:@[DMBeaconTag] completionHandler:^(NSArray *beacons, NSError *error) {
+        
+        if (!error) {
+            
+            if (self.verboseContextHubLogging) {
+                NSLog(@"DM: [CCHBeaconService getBeaconsWithTags: completionHandler:] response: %@", beacons);
+            }
+            
+            NSLog(@"DM: Succesfully synced %d new beacons from ContextHub", (int)(beacons.count - self.beaconArray.count));
+            
+            [self.beaconArray removeAllObjects];
+            
+            for (NSDictionary *beaconDict in beacons) {
+                DMBeacon *beacon = [[DMBeacon alloc] initWithDictionary:beaconDict];
+                [self.beaconArray addObject:beacon];
+            }
+            
+            
+        } else {
+            NSLog(@"DM: Could not sync beacons with ContextHub");
+        }
+    }];
 }
 
 #pragma mark - Actions
@@ -67,31 +99,37 @@
     
     // Check and make sure it's a beacon event
     if ([event valueForKeyPath:CCHBeaconEventKeyPath]) {
-        
+        NSLog(@"event: %@", event);
         // Get the name of the beacon from the ID, look inside our store
         NSString *beaconID = [event valueForKeyPath:CCHBeaconEventIDKeyPath];
-        DMBeacon *beacon = [[DMBeaconStore sharedInstance] findBeaconInStoreWithID:beaconID];
+        
+        // Find the beacon we are interested in (if it exists)
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.beaconID like %@", beaconID];
+        NSArray *filteredBeacons = [self.beaconArray filteredArrayUsingPredicate:predicate];
+        
+        DMBeacon *foundBeacon = nil;
+        if ([filteredBeacons count] > 0) {
+            foundBeacon = filteredBeacons[0];
+        }
         
         // Check and see if we know about this beacon
-        if (beacon) {
+        if (foundBeacon) {
+            NSLog(@"event name key: %@", [event valueForKeyPath:CCHEventNameKeyPath]);
             
             if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconIn) {
-                beacon.beaconState = CCHEventStateBeaconIn;
+                foundBeacon.beaconState = CCHEventStateBeaconIn;
             } else if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconOut)  {
-                beacon.beaconState = CCHEventStateBeaconOut;
+                foundBeacon.beaconState = CCHEventStateBeaconOut;
             } else if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconChanged)  {
-                beacon.beaconState = CCHEventStateBeaconIn;
+                foundBeacon.beaconState = CCHEventStateBeaconIn;
                 
                 // Save the proximity state when we have a beacon changed event
-                beacon.proximityState = [event valueForKeyPath:CCHEventStateKeyPath];
+                foundBeacon.proximityState = [event valueForKeyPath:CCHEventStateKeyPath];
             }
         }
+        
+        [self.tableView reloadData];
     }
-}
-
-// Respond to synchronization finishing by removing and adding all beacons
-- (void)syncCompleted:(NSNotification *)notification {
-    [self.tableView reloadData];
 }
 
 #pragma mark - Navigation
@@ -99,7 +137,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"editBeaconSegue"]) {
         DMEditBeaconViewController *editVC = segue.destinationViewController;
-        editVC.beacon = [DMBeaconStore sharedInstance].beacons[[self.tableView indexPathForSelectedRow].row];
+        editVC.beacon = self.beaconArray[[self.tableView indexPathForSelectedRow].row];
+        editVC.verboseContextHubLogging = self.verboseContextHubLogging;
+        editVC.beaconArray = self.beaconArray;
     }
 }
 
@@ -116,22 +156,22 @@
 
 // Number of rows
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [DMBeaconStore sharedInstance].beacons.count;
+    return self.beaconArray.count;
 }
 
 // Information for a row
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DMBeaconCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DMBeaconCellIdentifier"];
-    DMBeacon *beacon = [DMBeaconStore sharedInstance].beacons[indexPath.row];
+    DMBeacon *beacon = self.beaconArray[indexPath.row];
     
     cell.nameLabel.text = [NSString stringWithFormat:@"Name: %@", beacon.name];
     cell.uuidLabel.text = beacon.beaconRegion.proximityUUID.UUIDString;
-    cell.majorLabel.text = [NSString stringWithFormat:@"Major: %d", [beacon.beaconRegion.major integerValue]];
-    cell.minorLabel.text = [NSString stringWithFormat:@"Minor: %d", [beacon.beaconRegion.minor integerValue]];
+    cell.majorLabel.text = [NSString stringWithFormat:@"Major: %ld", (long)[beacon.beaconRegion.major integerValue]];
+    cell.minorLabel.text = [NSString stringWithFormat:@"Minor: %ld", (long)[beacon.beaconRegion.minor integerValue]];
     
     if ([beacon.beaconState isEqualToString:CCHEventStateBeaconIn]) {
         cell.beaconStateLabel.text = @"In";
-        cell.beaconStateLabel.textColor = [UIColor greenColor];
+        cell.beaconStateLabel.textColor = [UIColor colorWithRed:0.0 green:0.375 blue:0.0 alpha:1.0];
         
         if ([beacon.proximityState isEqualToString:CCHEventStateBeaconChangedImmediate]) {
             cell.proximityStateLabel.text = @"Immediate";
@@ -165,21 +205,47 @@
 
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete a beacon
-        DMBeacon *beaconToDelete = [DMBeaconStore sharedInstance].beacons[indexPath.row];
-        [[DMBeaconStore sharedInstance] deleteBeacon:beaconToDelete completionHandler:^(NSError *error) {
-            
+        DMBeacon *beaconToDelete = self.beaconArray[indexPath.row];
+        
+        // Delete the geofence
+        NSMutableDictionary *beaconDict = [NSMutableDictionary dictionary];
+        [beaconDict setValue:beaconToDelete.beaconRegion.proximityUUID.UUIDString forKey:@"uuid"];
+        [beaconDict setValue:beaconToDelete.beaconRegion.major forKey:@"major"];
+        [beaconDict setValue:beaconToDelete.beaconRegion.minor forKey:@"minor"];
+        [beaconDict setValue:beaconToDelete.name forKey:@"name"];
+        [beaconDict setValue:beaconToDelete.beaconID forKey:@"id"];
+        [beaconDict setValue:beaconToDelete.tags forKey:@"tags"];
+        
+        // Remove beacon from our array
+        if ([self.beaconArray containsObject:beaconToDelete]) {
+            [self.beaconArray removeObject:beaconToDelete];
+        }
+        
+        // Remove beacon from ContextHub
+        [[CCHBeaconService sharedInstance] deleteBeacon:beaconDict completionHandler:^(NSError *error) {
             if (!error) {
-                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
                 
-                // Synchronize beacons (this would not need to be done if push were enabled)
-                [[DMBeaconStore sharedInstance] syncBeacons];
+                // Synchronize the sensor pipeline with ContextHub (if you have push set up correctly, you can skip this step!)
+                [[CCHSensorPipeline sharedInstance] synchronize:^(NSError *error) {
+                    
+                    if (!error) {
+                        NSLog(@"DM: Successfully deleted beacon %@ on ContextHub", beaconToDelete.name);
+                        
+                        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                        
+                        [self refreshBeacons];
+                    } else {
+                        NSLog(@"DM: Could not synchronize deletion of beacon %@ on ContextHub", beaconToDelete.name);
+                    }
+                    
+                    // Stop table editing
+                    [self.tableView setEditing:FALSE animated:YES];
+                    [self updateEditButtonUI];
+                }];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Error deleting beacon from ContextHub" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
+                NSLog(@"DM: Could not delete beacon %@ on ContextHub", beaconToDelete.name);
             }
-            
-            // Stop table editing
-            [self.tableView setEditing:FALSE animated:YES];
-            [self updateEditButtonUI];
         }];
     }
 }

@@ -13,5 +13,7 @@
 @interface DMEditBeaconViewController : UITableViewController <UITextFieldDelegate>
 
 @property (nonatomic, weak) DMBeacon *beacon;
+@property (nonatomic, weak) NSMutableArray *beaconArray;
+@property (nonatomic) BOOL verboseContextHubLogging;
 
 @end

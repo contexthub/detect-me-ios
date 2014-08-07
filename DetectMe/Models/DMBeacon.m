@@ -42,15 +42,4 @@
     self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid major:major minor:minor identifier:self.name];
 }
 
-- (NSDictionary *)dictionaryForBeacon {
-    [self.beaconDict setValue:self.beaconRegion.proximityUUID.UUIDString forKey:@"uuid"];
-    [self.beaconDict setValue:self.beaconRegion.major forKey:@"major"];
-    [self.beaconDict setValue:self.beaconRegion.minor forKey:@"minor"];
-    [self.beaconDict setValue:self.name forKey:@"name"];
-    
-    [self.beaconDict setValue:self.tags forKey:@"tags"];
-    
-    return self.beaconDict;
-}
-
 @end

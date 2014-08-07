@@ -7,9 +7,10 @@
 //
 
 #import "DMEditBeaconViewController.h"
+#import <ContextHub/ContextHub.h>
 
 #import "DMBeacon.h"
-#import "DMBeaconStore.h"
+#import "DMConstants.h"
 
 @interface DMEditBeaconViewController ()
 
@@ -52,32 +53,75 @@
     
     if (uuid) {
         // Create a beacon from the DMBeaconStore
-        [[DMBeaconStore sharedInstance] createBeaconWithUUID:self.uuidTextField.text major:[self.majorValueTextField.text integerValue] minor:[self.minorValueTextField.text integerValue] name:self.nameTextField.text completionHandler:^(DMBeacon *beacon, NSError *error) {
+        CLBeaconMajorValue major = [self.majorValueTextField.text integerValue];
+        CLBeaconMinorValue minor = [self.minorValueTextField.text integerValue];
+        NSString *name = self.nameTextField.text;
+        [[CCHBeaconService sharedInstance] createBeaconWithProximityUUID:uuid major:major minor:minor name:name tags:@[DMBeaconTag] completionHandler:^(NSDictionary *beacon, NSError *error) {
             
             if (!error) {
-                [self dismissViewControllerAnimated:YES completion:nil];
+                
+                if (self.verboseContextHubLogging) {
+                    NSLog(@"DM: [CCHBeaconService createBeaconWithProximityUUID: major: minor: name: tags: completionHandler:] response: %@", beacon);
+                }
+                
+                DMBeacon *createdBeacon = [[DMBeacon alloc] initWithDictionary:beacon];
+                [self.beaconArray addObject:createdBeacon];
+                
+                // Synchronize newly created beacon with sensor pipeline (this happens automatically if push is configured)
+                [[CCHSensorPipeline sharedInstance] synchronize:^(NSError *error) {
+                    
+                    if (!error) {
+                        NSLog(@"DM: Successfully created and synchronized beacon %@ on ContextHub", createdBeacon.name);
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    } else {
+                        NSLog(@"DM: Could not synchronize creation of beacon %@ on ContextHub", createdBeacon.name);
+                    }
+                }];
             } else {
+                NSLog(@"DM: Could not create beacon %@ on ContextHub", name);
                 [[[UIAlertView alloc] initWithTitle:@"Error" message:@"There was an error creating your beacon in ContextHub" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
             }
         }];
     } else {
         [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please re-enter a UUID in the correct 32-character format" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
     }
-    
 }
 
 - (void)updateBeacon {
     [self.beacon updateUUID:self.uuidTextField.text major:[self.majorValueTextField.text integerValue] minor:[self.minorValueTextField.text integerValue] identifier:self.nameTextField.text];
+    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:self.uuidTextField.text];
     
-    [[DMBeaconStore sharedInstance] updateBeacon:self.beacon completionHandler:^(NSError *error) {
+    if (uuid) {
+        // Update the beacon
+        NSMutableDictionary *beaconDict = [NSMutableDictionary dictionary];
+        [beaconDict setValue:self.beacon.beaconRegion.proximityUUID.UUIDString forKey:@"uuid"];
+        [beaconDict setValue:self.beacon.beaconRegion.major forKey:@"major"];
+        [beaconDict setValue:self.beacon.beaconRegion.minor forKey:@"minor"];
+        [beaconDict setValue:self.beacon.name forKey:@"name"];
+        [beaconDict setValue:self.beacon.beaconID forKey:@"id"];
+        [beaconDict setValue:self.beacon.tags forKey:@"tags"];
         
-        if (!error) {
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            [[[UIAlertView alloc] initWithTitle:@"Error" message:@"There was an error creating your beacon in ContextHub" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
-        }
-    }];
-    
+        [[CCHBeaconService sharedInstance] updateBeacon:beaconDict completionHandler:^(NSError *error) {
+            
+            if (!error) {
+                // Synchronize updated beacon with sensor pipeline (this happens automatically if push is configured)
+                [[CCHSensorPipeline sharedInstance] synchronize:^(NSError *error) {
+                    
+                    if (!error) {
+                        NSLog(@"DM: Successfully updated and synchronized beacon %@ on ContextHub", self.beacon.name);
+                        [self.navigationController popViewControllerAnimated:YES];
+                    } else {
+                        NSLog(@"DM: Could not synchronize update of beacon %@ on ContextHub", self.beacon.name);
+                    }
+                }];
+            } else {
+                NSLog(@"DM: Could not update beacon %@ on ContextHub", self.beacon.name);
+                [[[UIAlertView alloc] initWithTitle:@"Error" message:@"There was an error creating your beacon in ContextHub" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
+            }
+        }];
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Please re-enter a UUID in the correct 32-character format" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
+    }
 }
 
 #pragma mark - Actions

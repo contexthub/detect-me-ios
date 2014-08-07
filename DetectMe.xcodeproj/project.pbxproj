@@ -12,7 +12,6 @@
 		1F023C67198F2E2D0051C869 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F023C66198F2E2D0051C869 /* Images.xcassets */; };
 		1F023C73198F2E2D0051C869 /* DetectMeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F023C72198F2E2D0051C869 /* DetectMeTests.m */; };
 		1F023C83198F2F7F0051C869 /* DMBeacon.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F023C80198F2F7F0051C869 /* DMBeacon.m */; };
-		1F023C84198F2F7F0051C869 /* DMBeaconStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F023C82198F2F7F0051C869 /* DMBeaconStore.m */; };
 		1F023C89198F2F8A0051C869 /* CLBeaconRegion+ContextHub.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F023C88198F2F8A0051C869 /* CLBeaconRegion+ContextHub.m */; };
 		1F023C94198F2F900051C869 /* DMTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F023C8C198F2F900051C869 /* DMTabBarController.m */; };
 		1F023C95198F2F900051C869 /* DMAboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F023C8F198F2F900051C869 /* DMAboutTableViewController.m */; };
@@ -34,6 +33,13 @@
 			remoteGlobalIDString = 1F023C55198F2E2D0051C869;
 			remoteInfo = DetectMe;
 		};
+		1FC2DE98198FDEE100DA28A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F023C4E198F2E2D0051C869 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F023C55198F2E2D0051C869;
+			remoteInfo = DetectMe;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -47,8 +53,6 @@
 		1F023C72198F2E2D0051C869 /* DetectMeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetectMeTests.m; sourceTree = "<group>"; };
 		1F023C7F198F2F7F0051C869 /* DMBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBeacon.h; sourceTree = "<group>"; };
 		1F023C80198F2F7F0051C869 /* DMBeacon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBeacon.m; sourceTree = "<group>"; };
-		1F023C81198F2F7F0051C869 /* DMBeaconStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMBeaconStore.h; sourceTree = "<group>"; };
-		1F023C82198F2F7F0051C869 /* DMBeaconStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMBeaconStore.m; sourceTree = "<group>"; };
 		1F023C87198F2F8A0051C869 /* CLBeaconRegion+ContextHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLBeaconRegion+ContextHub.h"; sourceTree = "<group>"; };
 		1F023C88198F2F8A0051C869 /* CLBeaconRegion+ContextHub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLBeaconRegion+ContextHub.m"; sourceTree = "<group>"; };
 		1F023C8B198F2F900051C869 /* DMTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMTabBarController.h; sourceTree = "<group>"; };
@@ -98,13 +102,13 @@
 		1F023C4D198F2E2D0051C869 = {
 			isa = PBXGroup;
 			children = (
-				1F023CAB198F33AA0051C869 /* README.md */,
-				1F023CAC198F33B40051C869 /* release_notes.md */,
-				1F023CAD198F33BB0051C869 /* LICENSE */,
 				1F023C58198F2E2D0051C869 /* DetectMe */,
 				1F023C6F198F2E2D0051C869 /* DetectMeTests */,
 				1F023CA0198F308C0051C869 /* Frameworks */,
 				1F023C57198F2E2D0051C869 /* Products */,
+				1F023CAB198F33AA0051C869 /* README.md */,
+				1F023CAC198F33B40051C869 /* release_notes.md */,
+				1F023CAD198F33BB0051C869 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,8 +169,6 @@
 			children = (
 				1F023C7F198F2F7F0051C869 /* DMBeacon.h */,
 				1F023C80198F2F7F0051C869 /* DMBeacon.m */,
-				1F023C81198F2F7F0051C869 /* DMBeaconStore.h */,
-				1F023C82198F2F7F0051C869 /* DMBeaconStore.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -264,6 +266,7 @@
 			);
 			dependencies = (
 				1F023C6E198F2E2D0051C869 /* PBXTargetDependency */,
+				1FC2DE99198FDEE100DA28A9 /* PBXTargetDependency */,
 			);
 			name = DetectMeTests;
 			productName = DetectMeTests;
@@ -281,6 +284,7 @@
 				TargetAttributes = {
 					1F023C55198F2E2D0051C869 = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = K83DSSAEPP;
 					};
 					1F023C6B198F2E2D0051C869 = {
 						CreatedOnToolsVersion = 6.0;
@@ -348,7 +352,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F023C89198F2F8A0051C869 /* CLBeaconRegion+ContextHub.m in Sources */,
-				1F023C84198F2F7F0051C869 /* DMBeaconStore.m in Sources */,
 				1F023C95198F2F900051C869 /* DMAboutTableViewController.m in Sources */,
 				1F023CA4198F311B0051C869 /* DMAppDelegate.m in Sources */,
 				1F023C83198F2F7F0051C869 /* DMBeacon.m in Sources */,
@@ -375,6 +378,11 @@
 			isa = PBXTargetDependency;
 			target = 1F023C55198F2E2D0051C869 /* DetectMe */;
 			targetProxy = 1F023C6D198F2E2D0051C869 /* PBXContainerItemProxy */;
+		};
+		1FC2DE99198FDEE100DA28A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F023C55198F2E2D0051C869 /* DetectMe */;
+			targetProxy = 1FC2DE98198FDEE100DA28A9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -424,10 +432,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -460,9 +468,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos7.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -473,6 +482,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -481,6 +492,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "03E73780-5D15-42AB-B31B-A618741DFAED";
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -489,6 +502,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -497,6 +512,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "03E73780-5D15-42AB-B31B-A618741DFAED";
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
