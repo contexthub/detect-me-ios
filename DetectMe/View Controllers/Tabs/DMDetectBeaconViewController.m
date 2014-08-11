@@ -242,7 +242,7 @@
         // Delete a beacon
         DMBeacon *beaconToDelete = self.beaconArray[indexPath.row];
         
-        // Delete the geofence
+        // Delete the beacon
         NSMutableDictionary *beaconDict = [NSMutableDictionary dictionary];
         [beaconDict setValue:beaconToDelete.beaconRegion.proximityUUID.UUIDString forKey:@"uuid"];
         [beaconDict setValue:beaconToDelete.beaconRegion.major forKey:@"major"];

@@ -18,7 +18,7 @@ Beacons have 4 important information fields that need to be programmed: UUID, ma
 
 ## Sample Code
 
-In this sample, most of the important code that deals with CRUDing geofences occurs in GFGeofenceStore.m. Each method goes though a single operation you'll need to use `CCHBeaconService`. After each CUD operation, a synchronization call is made so that `CCHSensorPipeline` is up to date with the latest data. This method becomes unnecessary if you have properly implemented push as background notifications will take care of synchronization for you.
+In this sample, most of the important code that deals with CRUDing beacons occurs in DMDetectBeaconViewController.m and DMEditBeaconViewController.m. Each method goes though a single operation you'll need to use `CCHBeaconService`. After each CUD operation, a synchronization call is made so that `CCHSensorPipeline` is up to date with the latest data. This method becomes unnecessary if you have properly implemented push as background notifications will take care of synchronization for you.
 
 In addition, `DMDetectBeaconViewController` responds to any events created from the sensor pipeline through the `CCHSensorPipelineDidPostEvent` notification. At that point, you'll be able to filter whether the event was a beacon event which you were interested in and respond accordingly. There are several pre-defined keys that let you access information stored in an event, such as event name, state, type, etc..
 
@@ -55,7 +55,7 @@ Tag: beacon-tag
 
 1. Next click on the Contexts link which will take you to the "Contexts" page. Contexts let you change how the server will respond to events triggered by devices. Let's go ahead and create a new context.
 2. In the "Contexts" tab, click the "New Context" button to start making a new rule.
-3. Enter a name for this context which will be easy for you to remember. For now, name it "Geofence In".
+3. Enter a name for this context which will be easy for you to remember. For now, name it "Beacon In".
 4. Select the `"beacon_in"` event type. Now any event of type `"beacon_in"` will trigger this rule. You can have multiple rules with the same event type, which is why the name of events should be descriptive of the rule.
 5. The Context Rule text box is where you can write a rule telling ContextHub what actions to take in response to an event triggered with the specific event type. This code is Javascript, and you have access to some context objects: event, push, vault, http, and console. For now, put `true` the code box blank and then click save.
 6. Create `"beacon_out"` and `"beacon_changed"` rules as well in the portal. A rule must exist in ContextHub.com before a device will generate that specific event type automatically, so this is necessary to get those type of events to fire as well.
