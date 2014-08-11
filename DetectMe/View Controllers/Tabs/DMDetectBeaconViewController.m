@@ -34,6 +34,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+#if TARGET_IPHONE_SIMULATOR
+    // Pop a notification that this app only works on actual devices
+    [[[UIAlertView alloc] initWithTitle:@"Important!" message:@"This sample app will only detect beacons using a real iOS device" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+#endif
+    
     // Do initial data sync
     [self refreshBeacons];
     
