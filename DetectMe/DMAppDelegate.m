@@ -44,19 +44,19 @@
 - (BOOL)sensorPipeline:(CCHSensorPipeline *)sensorPipeline shouldPostEvent:(NSDictionary *)event {
     // If you'd like to keep events from hitting the server, you can return NO here.
     // This is a good spot to filter events.
-    NSLog(@"DM: Should post event %@", event);
+    //NSLog(@"DM: Should post event %@", event);
     
     return YES;
 }
 
 - (void)sensorPipeline:(CCHSensorPipeline *)sensorPipeline willPostEvent:(NSDictionary *)event {
     // If you want to access event data directl before it will be posted to the server, you can do that here
-    NSLog(@"DM: Will post event %@", event);
+    //NSLog(@"DM: Will post event %@", event);
 }
 
 - (void)sensorPipeline:(CCHSensorPipeline *)sensorPipeline didPostEvent:(NSDictionary *)event {
     // If you want to access event data directly after it has been posted to the server, you can do that here
-    NSLog(@"DM: Did post event %@", event);
+    //NSLog(@"DM: Did post event %@", event);
 }
 
 #pragma mark - Sensor Pipeline Data Source

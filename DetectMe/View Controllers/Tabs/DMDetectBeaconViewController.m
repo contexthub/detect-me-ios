@@ -67,7 +67,7 @@
                 [self.beaconArray addObject:beacon];
             }
             
-            
+            [self.tableView reloadData];
         } else {
             NSLog(@"DM: Could not sync beacons with ContextHub");
         }
@@ -99,37 +99,72 @@
     
     // Check and make sure it's a beacon event
     if ([event valueForKeyPath:CCHBeaconEventKeyPath]) {
-        NSLog(@"event: %@", event);
-        // Get the name of the beacon from the ID, look inside our store
-        NSString *beaconID = [event valueForKeyPath:CCHBeaconEventIDKeyPath];
         
-        // Find the beacon we are interested in (if it exists)
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.beaconID like %@", beaconID];
-        NSArray *filteredBeacons = [self.beaconArray filteredArrayUsingPredicate:predicate];
-        
-        DMBeacon *foundBeacon = nil;
-        if ([filteredBeacons count] > 0) {
-            foundBeacon = filteredBeacons[0];
+        if (self.verboseContextHubLogging) {
+            NSLog(@"ContextHub Event: %@", event);
         }
         
-        // Check and see if we know about this beacon
-        if (foundBeacon) {
-            NSLog(@"event name key: %@", [event valueForKeyPath:CCHEventNameKeyPath]);
+        if (([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconIn) || ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconOut)) {
+            // Find our beacon region by ID if it exists
+            NSString *beaconID = [event valueForKeyPath:CCHBeaconEventIDKeyPath];
+            DMBeacon *foundBeacon = [self filterBeaconsByID:beaconID];
             
-            if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconIn) {
+            if (foundBeacon) {
+                foundBeacon.beaconState = [event valueForKeyPath:CCHEventNameKeyPath];
+            }
+        } else if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconChanged) {
+            // Find our beacon by combination of UUID, major, and minor
+            NSString *uuidString = [event valueForKeyPath:CCHBeaconEventUUIDKeyPath];
+            CLBeaconMajorValue majorValue = [[event valueForKeyPath:CCHBeaconEventMajorValueKeyPath] integerValue];
+            CLBeaconMinorValue minorValue = [[event valueForKeyPath:CCHBeaconEventMinorValueKeyPath] integerValue];
+            DMBeacon *foundBeacon = [self filterBeaconsByUUID:uuidString major:majorValue minor:minorValue];
+            
+            if (foundBeacon) {
                 foundBeacon.beaconState = CCHEventStateBeaconIn;
-            } else if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconOut)  {
-                foundBeacon.beaconState = CCHEventStateBeaconOut;
-            } else if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconChanged)  {
-                foundBeacon.beaconState = CCHEventStateBeaconIn;
-                
-                // Save the proximity state when we have a beacon changed event
                 foundBeacon.proximityState = [event valueForKeyPath:CCHEventStateKeyPath];
             }
         }
         
         [self.tableView reloadData];
     }
+}
+
+#pragma mark - Filtering
+
+- (DMBeacon *)filterBeaconsByID:(NSString *)beaconID {
+    // Find the beacon we are interested in (if it exists)
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.beaconID like %@", beaconID];
+    NSArray *filteredBeacons = [self.beaconArray filteredArrayUsingPredicate:predicate];
+    
+    DMBeacon *foundBeacon = nil;
+    if ([filteredBeacons count] > 0) {
+        foundBeacon = filteredBeacons[0];
+    }
+    
+    return foundBeacon;
+}
+
+- (DMBeacon *)filterBeaconsByUUID:(NSString *)uuidString major:(CLBeaconMinorValue)major minor:(CLBeaconMinorValue)minor {
+    // Filter by minor first (most likely to be unique)
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.beaconRegion.minor = %@", [NSNumber numberWithInt:minor]];
+    NSMutableArray *filteredByMinor = [[self.beaconArray filteredArrayUsingPredicate:predicate] mutableCopy];
+    
+    // Filter by major next
+    predicate = [NSPredicate predicateWithFormat:@"SELF.beaconRegion.major = %@", [NSNumber numberWithInt:major]];
+    NSMutableArray *filteredByMajorMinor = [[filteredByMinor filteredArrayUsingPredicate:predicate] mutableCopy];
+    
+    
+    // Filter by UUID last (least likely to be unique)
+    predicate = [NSPredicate predicateWithFormat:@"SELF.beaconRegion.proximityUUID = %@", [[NSUUID alloc] initWithUUIDString:uuidString]];
+    NSMutableArray *filteredByUUIDMajorMinor = [[filteredByMajorMinor filteredArrayUsingPredicate:predicate] mutableCopy];
+    
+    // At this point, we should only have one beacon (combination of beacon UUID, major, minor is supposed to be unique)
+    DMBeacon *filteredBeacon = nil;
+    if ([filteredByUUIDMajorMinor count] > 0) {
+        filteredBeacon = filteredByUUIDMajorMinor[0];
+    }
+    
+    return filteredBeacon;
 }
 
 #pragma mark - Navigation
@@ -175,16 +210,16 @@
         
         if ([beacon.proximityState isEqualToString:CCHEventStateBeaconChangedImmediate]) {
             cell.proximityStateLabel.text = @"Immediate";
-            cell.proximityStateLabel.textColor = [UIColor greenColor];
-        } else if ([beacon.proximityState isEqualToString:CCHEventStateBeaconChangedImmediate]) {
+            cell.proximityStateLabel.textColor = [UIColor colorWithRed:0.0 green:0.8 blue:0.0 alpha:1.0];
+        } else if ([beacon.proximityState isEqualToString:CCHEventStateBeaconChangedNear]) {
             cell.proximityStateLabel.text = @"Near";
-            cell.proximityStateLabel.textColor = [UIColor yellowColor];
-        } else if ([beacon.proximityState isEqualToString:CCHEventStateBeaconChangedImmediate]) {
+            cell.proximityStateLabel.textColor = [UIColor colorWithRed:0.0 green:0.4 blue:0.0 alpha:1.0];
+        } else if ([beacon.proximityState isEqualToString:CCHEventStateBeaconChangedFar]) {
             cell.proximityStateLabel.text = @"Far";
-            cell.proximityStateLabel.textColor = [UIColor redColor];
+            cell.proximityStateLabel.textColor = [UIColor colorWithRed:0.0 green:0.2 blue:0.0 alpha:1.0];
         } else {
             cell.proximityStateLabel.text = @"Unknown";
-            cell.proximityStateLabel.textColor = [UIColor blueColor];
+            cell.proximityStateLabel.textColor = [UIColor blackColor];
         }
     } else if ([beacon.beaconState isEqualToString:CCHEventStateBeaconOut]) {
         cell.beaconStateLabel.text = @"Out";
@@ -213,8 +248,10 @@
         [beaconDict setValue:beaconToDelete.beaconRegion.major forKey:@"major"];
         [beaconDict setValue:beaconToDelete.beaconRegion.minor forKey:@"minor"];
         [beaconDict setValue:beaconToDelete.name forKey:@"name"];
-        [beaconDict setValue:beaconToDelete.beaconID forKey:@"id"];
         [beaconDict setValue:beaconToDelete.tags forKey:@"tags"];
+        
+        NSNumber *beaconID = [NSNumber numberWithInt:(int)[beaconToDelete.beaconID integerValue]];
+        [beaconDict setValue:beaconID forKey:@"id"];
         
         // Remove beacon from our array
         if ([self.beaconArray containsObject:beaconToDelete]) {

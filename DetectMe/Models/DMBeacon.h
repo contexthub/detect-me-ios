@@ -11,7 +11,7 @@
 
 @interface DMBeacon : NSObject
 
-@property (nonatomic, readonly) NSString *beaconID;
+@property (nonatomic, copy, readonly) NSString *beaconID;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSArray *tags;
 @property (nonatomic, strong) CLBeaconRegion *beaconRegion;

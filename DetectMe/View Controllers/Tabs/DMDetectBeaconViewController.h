@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface DMDetectBeaconViewController : UITableViewController
+
 @property (nonatomic, strong) NSMutableArray *beaconArray;
 @property (nonatomic) BOOL verboseContextHubLogging;
+
 @end
