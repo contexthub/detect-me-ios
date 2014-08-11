@@ -37,14 +37,15 @@
     // Do initial data sync
     [self refreshBeacons];
     
-    // Register to listen to notification about sensor pipeline posting events
+    // Start listening to event notifications about sensor pipeline posting events
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleEvent:) name:CCHSensorPipelineDidPostEvent object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    // Stop listening to event notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CCHSensorPipelineDidPostEvent object:nil];
 }
 
 #pragma mark - Beacons
