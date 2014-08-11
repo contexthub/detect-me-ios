@@ -98,8 +98,10 @@
         [beaconDict setValue:self.beacon.beaconRegion.major forKey:@"major"];
         [beaconDict setValue:self.beacon.beaconRegion.minor forKey:@"minor"];
         [beaconDict setValue:self.beacon.name forKey:@"name"];
-        [beaconDict setValue:self.beacon.beaconID forKey:@"id"];
         [beaconDict setValue:self.beacon.tags forKey:@"tags"];
+        
+        NSNumber *beaconID = [NSNumber numberWithInt:(int)[self.beacon.beaconID integerValue]];
+        [beaconDict setValue:beaconID forKey:@"id"];
         
         [[CCHBeaconService sharedInstance] updateBeacon:beaconDict completionHandler:^(NSError *error) {
             
@@ -109,7 +111,7 @@
                     
                     if (!error) {
                         NSLog(@"DM: Successfully updated and synchronized beacon %@ on ContextHub", self.beacon.name);
-                        [self.navigationController popViewControllerAnimated:YES];
+                        //[self.navigationController popViewControllerAnimated:YES];
                     } else {
                         NSLog(@"DM: Could not synchronize update of beacon %@ on ContextHub", self.beacon.name);
                     }
