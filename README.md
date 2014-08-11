@@ -148,6 +148,8 @@ CLBeaconMajorValue major = 100;
 CLBeaconMinorValue minor = 1;
 NSString *beaconTag = @"beacon-tag";
 NSString *beaconTag2 = @"park";
+NSNumber *beaconID = @1000;
+
 NSDictionary *beaconDict = @{ @"id":beaconID, @"major: major, @"minor:minor, @"uuid": uuidString, @"tags":@[beaconTag, beaconTag2] };
 [[CCHBeaconService sharedInstance] updateBeacon:beaconDict completionHandler:^(NSError *error) {
 
