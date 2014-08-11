@@ -1,7 +1,7 @@
 DetectMe (Beacons) Release Notes
 ---
 
-## 1.1.1 (Build 210) - August 10, 2014
+## 1.1.1 (Build 216) - August 10, 2014
 - Fix bug where app would crash when updating and deleting beacons
 - Fix bug where proximity state was not changing when "near" or "far"
 - Added better event handling for differences between "beacon_in"/"beacon_out" and "beacon_changed" events
