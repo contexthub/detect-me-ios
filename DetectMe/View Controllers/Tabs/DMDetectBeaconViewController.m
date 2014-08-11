@@ -68,6 +68,10 @@
                 [self.beaconArray addObject:beacon];
             }
             
+            // Sort beacons by name
+            NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+            [self.beaconArray sortUsingDescriptors:@[nameSortDescriptor]];
+            
             [self.tableView reloadData];
         } else {
             NSLog(@"DM: Could not sync beacons with ContextHub");
