@@ -73,6 +73,7 @@ At this point, you can add more beacons assuming you have either test devices or
 
 ## Usage
 
+##### Creating a beacon
 ```objc
 // Creating a beacon region with name "Beacon", tag "beacon-tag"
 NSString *name = @"Beacon";
@@ -104,7 +105,10 @@ NSString *beaconTag = @"beacon-tag";
         NSLog(@"Could not create beacon %@ on ContextHub", name);
     }
 }];
+```
 
+##### Retrieving beacons via a tag
+```objc
 // Getting all beacons with the tag "beacon-tag"
 NSString *beaconTag = @"beacon-tag";
 [[CCHBeaconService sharedInstance] getBeaconsWithTags:@[beaconTag] completionHandler:^(NSArray *beacons, NSError *error) {
@@ -117,7 +121,10 @@ NSString *beaconTag = @"beacon-tag";
         NSLog(@"Could not get beacons from ContextHub");
     }
 }];
+```
 
+##### Retrieving a beacon via an ID
+```objc
 // Getting a beacon with a specific ID
 NSString *beaconID = @"1000";
 [[CCHBeaconService sharedInstance] getBeaconWithId:beaconID completionHandler:^(NSDictionary *beacon, NSError *error)completionHandler {
@@ -128,7 +135,10 @@ NSString *beaconID = @"1000";
         NSLog(@"Could not get beacon from ContextHub");
     }
 }];
+```
 
+##### Updating a beacon
+```objc
 // Updating a beacon with the name "Beacon 2" and adding the tag "park"
 // In order to update a beacon, you need to pass in a dictionary with the same dictionary structure as from either the create or get methods
 // Note, this is where a custom class is very helpful in taking the information in a CLBeaconRegion (which is marked partly read-only by Apple) and updating it
@@ -158,7 +168,10 @@ NSDictionary *beaconDict = @{ @"id":beaconID, @"major: major, @"minor:minor, @"u
         NSLog(@"Could not update beacon in ContextHub");
     }
 }];
+```
 
+##### Deleting a beacon
+```objc
 // Deleting a beacon takes the same NSDictionary structure as updating one
 [[CCHBeaconService sharedInstance] deleteBeacon:beaconDict completionHandler:^(NSError *error) {
 
@@ -180,7 +193,8 @@ NSDictionary *beaconDict = @{ @"id":beaconID, @"major: major, @"minor:minor, @"u
 }];
 ```
 
-And here is what a response from create and get calls looks like:
+##### Response
+Here is what a response from create and get calls looks like:
 ```
 {
     id = 5989;
