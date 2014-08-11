@@ -16,12 +16,6 @@ Beacons have 4 important information fields that need to be programmed: UUID, ma
 - Minor: This number uniquely identifies a specific beacon within a group of beacons with the same major value. For example, a beacon located next to the lobby would have a different minor value from a nearby elevator. Every beacon should have a unique combination of UUID, major, and minor value to distinguish between then. This number is between 0 and 65536.
 - Name: Beacons are given human-readable names to easily distinguish between them. Names are not required to be unique (as uniqueness is determined by the UUID, major and minor value) however they are not allowed to have spaces.
 
-## Sample Code
-
-In this sample, most of the important code that deals with CRUDing beacons occurs in DMDetectBeaconViewController.m and DMEditBeaconViewController.m. Each method goes though a single operation you'll need to use `CCHBeaconService`. After each CUD operation, a synchronization call is made so that `CCHSensorPipeline` is up to date with the latest data. This method becomes unnecessary if you have properly implemented push as background notifications will take care of synchronization for you.
-
-In addition, `DMDetectBeaconViewController` responds to any events created from the sensor pipeline through the `CCHSensorPipelineDidPostEvent` notification. At that point, you'll be able to filter whether the event was a beacon event which you were interested in and respond accordingly. There are several pre-defined keys that let you access information stored in an event, such as event name, state, type, etc..
-
 ## Getting Started
 
 1. Get started by either forking or cloning the DetectMe repo. Visit [GitHub Help](https://help.github.com/articles/fork-a-repo) if you need help.
@@ -41,7 +35,7 @@ In addition, `DMDetectBeaconViewController` responds to any events created from 
 ## ContextHub.com
 
 1. The real power of ContextHub comes from collecting and reacting to events posted from devices onto the server. Go to the [developer portal](https://app.contexthub.com) and click on your DetectMe app to access its data.
-2. Click on the "Beacons" tab.  Here is a list of beacons that are present in your application. Since the beacon UUID is in a specific format, it is often easiest to enter them on a computer rather than a phone. From here you can create, update, and delete beacons. Use any number of the UUID generators on the [web](http://www.uuidgenerator.net) or UUIDgen in [OS X Terminal](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/uuidgen.1.html) to make a UUID, enter a major value (0-65536), minor value (0-65536), and a tag of "beacon-tag". Tags are a way to group similar ContextHub objects together during CRUD events as well as activating a specific group of objects on a user's device via subscriptions. 
+2. Click on the "Beacons" tab.  Here is a list of beacons that are present in your application. Since the beacon UUID is in a specific format, it is often easiest to enter them on a computer rather than a phone. From here you can create, update, and delete beacons. Use any number of the UUID generators on the [web](http://www.uuidgenerator.net) or UUIDgen in [OS X Terminal](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/uuidgen.1.html) to make a UUID, enter a major value (0-65535), minor value (0-65535), and a tag of "beacon-tag". Tags are a way to group similar ContextHub objects together during CRUD events as well as activating a specific group of objects on a user's device via subscriptions.
 3. Make a beacon with the following information then click save: 
 ```
 UUID: B9407F30-F5F8-466E-AFF9-25556B57FE6D
@@ -49,7 +43,6 @@ Major: 100
 Minor: 1
 Tag: beacon-tag
 ```
-
 
 ## Creating a New Context
 
@@ -70,6 +63,12 @@ Tag: beacon-tag
 ## Adding more beacons
 
 At this point, you can add more beacons assuming you have either test devices or real beacons using either the web or the app. Entering in a UUID via the app is tricky, but the code exists there to show you how to create beacons programatically via the ContextHub SDK.
+
+## Sample Code
+
+In this sample, most of the important code that deals with CRUDing beacons occurs in `DMDetectBeaconViewController.m` and `DMEditBeaconViewController.m`. Each method goes though a single operation you'll need to use `CCHBeaconService`. After each CUD operation, a synchronization call is made so that `CCHSensorPipeline` is up to date with the latest data. This method becomes unnecessary if you have properly implemented push as background notifications will take care of synchronization for you.
+
+In addition, `DMDetectBeaconViewController` responds to any events created from the sensor pipeline through the `CCHSensorPipelineDidPostEvent` notification. At that point, you'll be able to filter whether the event was a beacon event which you were interested in and respond accordingly. There are several pre-defined keys that let you access information stored in an event, such as event name, state, type, etc..
 
 ## Usage
 
@@ -92,9 +91,9 @@ NSString *beaconTag = @"beacon-tag";
         [[CCHSensorPipeline sharedInstance] synchronize:^(NSError *error) {
 
         if (!error) {
-            NSLog(@"DM: Successfully synchronized with ContextHub");
+            NSLog(@"Successfully synchronized with ContextHub");
         } else {
-            NSLog(@"DM: Could not synchronize withContextHub");
+            NSLog(@"Could not synchronize withContextHub");
         }
     }];
 
@@ -159,9 +158,9 @@ NSDictionary *beaconDict = @{ @"id":beaconID, @"major: major, @"minor:minor, @"u
         [[CCHSensorPipeline sharedInstance] synchronize:^(NSError *error) {
 
             if (!error) {
-                NSLog(@"DM: Successfully synchronized with ContextHub");
+                NSLog(@"Successfully synchronized with ContextHub");
             } else {
-                NSLog(@"DM: Could not synchronize withContextHub");
+                NSLog(@"Could not synchronize withContextHub");
             }
         }];
     } else {
@@ -182,9 +181,9 @@ NSDictionary *beaconDict = @{ @"id":beaconID, @"major: major, @"minor:minor, @"u
         [[CCHSensorPipeline sharedInstance] synchronize:^(NSError *error) {
 
             if (!error) {
-                NSLog(@"DM: Successfully synchronized with ContextHub");
+                NSLog(@"Successfully synchronized with ContextHub");
             } else {
-                NSLog(@"DM: Could not synchronize withContextHub");
+                NSLog(@"Could not synchronize withContextHub");
             }
         }];
     } else {
@@ -206,6 +205,56 @@ Here is what a response from create and get calls looks like:
     tags =     (
         "beacon-tag"
     );
+}
+```
+
+##### Handling an event
+```objc
+- (void)viewDidAppear:(BOOL animated) {
+    [super viewDidAppear:animated];
+    
+    // Start listening to event notifications about sensor pipeline posting events
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleEvent:) name:CCHSensorPipelineDidPostEvent object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL animated) {
+    [super viewDidDisappear:animated];
+    
+    // Stop listening to event notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CCHSensorPipelineDidPostEvent object:nil];
+}
+    
+// Handle an event from ContextHub
+- (void)handleEvent:(NSNotification *)notification {
+    NSDictionary *event = notification.object;
+        
+    // Check and make sure it's a beacon event
+    if ([event valueForKeyPath:CCHBeaconEventKeyPath]) {
+        
+        if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconIn) {
+            // We entered range of a monitored beacon region
+            NSString *beaconID = [event valueForKeyPath:CCHBeaconEventIDKeyPath];
+        } else if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconOut) {
+            // We exited range of a monitored beacon region
+            NSString *beaconID = [event valueForKeyPath:CCHBeaconEventIDKeyPath];
+        } else if ([event valueForKeyPath:CCHEventNameKeyPath] == CCHEventNameBeaconChanged) {
+            // We changed proximity states relative to a specific beacon (immediate, near, or far)
+            NSString *beaconProximity = [event valueForKeyPath:CCHEventStateKeyPath];
+            
+            // Combination of UUID, major, and minor determines the uniqueness of a beacon
+            NSString *uuidString = [event valueForKeyPath:CCHBeaconEventUUIDKeyPath];
+            CLBeaconMajorValue majorValue = [[event valueForKeyPath:CCHBeaconEventMajorValueKeyPath] integerValue];
+            CLBeaconMinorValue minorValue = [[event valueForKeyPath:CCHBeaconEventMinorValueKeyPath] integerValue];
+
+            if ([beaconProximity isEqualToString:CCHBeaconChangedEventProximityImmediate]) {
+                // We are in immediate proximity to the beacon
+            } else if ([beaconProximity isEqualToString:CCHBeaconChangedEventProximityNear]) {
+                // We are in near proximity to the beacon
+            } else if ([beaconProximity isEqualToString:CCHBeaconChangedEventProximityFar]) {
+                // We are in far proximity to the beacon
+            }
+        }
+    }
 }
 ```
 
