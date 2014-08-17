@@ -97,7 +97,7 @@ In addition, `DMDetectBeaconViewController` responds to any events created from 
 
 ## Usage
 
-##### Creating a Ceacon
+##### Creating a Beacon
 ```objc
 // Creating a beacon region with name "Beacon", tag "beacon-tag"
 NSString *name = @"Beacon";
