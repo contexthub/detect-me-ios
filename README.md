@@ -21,7 +21,7 @@ The DetectMe sample app that introduces you to the beacon features of the Contex
   - **[Updating a Beacon](#updating-a-beacon)**
   - **[Deleting a Beacon](#deleting-a-beacon)**
   - **[Response](#response)**
-  - **[Handling an Event](#handling-an-event)
+  - **[Handling an Event](#handling-an-event)**
 12. **[Final Words](#final-words)**
 
 ## Purpose
