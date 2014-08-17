@@ -1,5 +1,8 @@
 DetectMe (Beacons) Release Notes
----
+
+## 1.1.2 (Build 228) - August 17, 2014
+- Update to ContextHub v1.2.0 framework
+- Add Table of Contents to README
 
 ## 1.1.1 (Build 227) - August 10, 2014
 - Fix bug where app would crash when updating and deleting beacons
