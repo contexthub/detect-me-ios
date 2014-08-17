@@ -16,8 +16,8 @@ The DetectMe sample app that introduces you to the beacon features of the Contex
 10. **[Sample Code](#sample-code)**
 11. **[Usage](#usage)**
   - **[Creating a Beacon](#creating-a-beacon)**
-  - **[Retrieving Beacons via a Tag](#retrieving-beacons-via-a-tag)**
-  - **[Retrieving a Beacon via an ID](#retrieving-a-beacon-via-an-id)**
+  - **[Retrieving Beacons by Tag](#retrieving-beacons-by-tag)**
+  - **[Retrieving a Beacon by ID](#retrieving-a-beacon-by-id)**
   - **[Updating a Beacon](#updating-a-beacon)**
   - **[Deleting a Beacon](#deleting-a-beacon)**
   - **[Response](#response)**
@@ -97,7 +97,7 @@ In addition, `DMDetectBeaconViewController` responds to any events created from 
 
 ## Usage
 
-##### Creating a beacon
+##### Creating a Ceacon
 ```objc
 // Creating a beacon region with name "Beacon", tag "beacon-tag"
 NSString *name = @"Beacon";
@@ -131,7 +131,7 @@ NSString *beaconTag = @"beacon-tag";
 }];
 ```
 
-##### Retrieving beacons via a tag
+##### Retrieving Beacons by Tag
 ```objc
 // Getting all beacons with the tag "beacon-tag"
 NSString *beaconTag = @"beacon-tag";
@@ -147,7 +147,7 @@ NSString *beaconTag = @"beacon-tag";
 }];
 ```
 
-##### Retrieving a Beacon via an ID
+##### Retrieving a Beacon by ID
 ```objc
 // Getting a beacon with a specific ID
 NSString *beaconID = @"1000";
@@ -161,7 +161,7 @@ NSString *beaconID = @"1000";
 }];
 ```
 
-##### Updating a beacon
+##### Updating a Beacon
 ```objc
 // Updating a beacon with the name "Beacon 2" and adding the tag "park"
 // In order to update a beacon, you need to pass in a dictionary with the same dictionary structure as from either the create or get methods
@@ -196,7 +196,7 @@ NSDictionary *beaconDict = @{ @"id":beaconID, @"major: major, @"minor:minor, @"u
 }];
 ```
 
-##### Deleting a beacon
+##### Deleting a Beacon
 ```objc
 // Deleting a beacon takes the same NSDictionary structure as updating one
 [[CCHBeaconService sharedInstance] deleteBeacon:beaconDict completionHandler:^(NSError *error) {
@@ -235,7 +235,7 @@ Here is what a response from create and get calls looks like:
 }
 ```
 
-##### Handling an event
+##### Handling an Event
 ```objc
 - (void)viewDidAppear:(BOOL animated) {
     [super viewDidAppear:animated];
