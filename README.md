@@ -29,7 +29,7 @@ This sample application will show you how to create, retrieve, update, and delet
 
 
 ## ContextHub Use Case
-In this sample application, we use ContextHub to interact with beacons we are are of by registering them in the app with a tag so they autotomatically appear on every device registered with that same tag. ContextHub takes care of setting up and monitoring beacons automatically after creation and synchronization.
+In this sample application, we use ContextHub to interact with beacons we are aware of by registering them in the app with a tag so they autotomatically appear on every device registered with that same tag. ContextHub takes care of setting up and monitoring beacons automatically after creation and synchronization.
 
 ## Background
 
