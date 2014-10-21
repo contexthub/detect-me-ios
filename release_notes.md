@@ -1,6 +1,11 @@
 DetectMe (Beacons) Release Notes
 ---
 
+## v1.1.4 (Build 248) - October 21, 2014
+- Update to ContextHub v1.3.3 framework
+- Update compatability for iPhone 6 and iPhone 6 Plus
+- Only show simulator warning once
+
 ## v1.1.3 (Build 241) - September 16, 2014
 - Update to ContextHub v1.3.1 framework
 - Update compatibility for iOS 8 
