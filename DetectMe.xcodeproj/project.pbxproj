@@ -23,6 +23,7 @@
 		1F023CA6198F31480051C869 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F023CA5198F31480051C869 /* CoreMotion.framework */; };
 		1F023CA8198F314E0051C869 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F023CA7198F314E0051C869 /* MobileCoreServices.framework */; };
 		1F023CAA198F31530051C869 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F023CA9198F31530051C869 /* CoreLocation.framework */; };
+		1FF51E7919F6DB8D0031F8CB /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FF51E7819F6DB8D0031F8CB /* Launch Screen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		1F023CAB198F33AA0051C869 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1F023CAC198F33B40051C869 /* release_notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = release_notes.md; sourceTree = "<group>"; };
 		1F023CAD198F33BB0051C869 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		1FF51E7819F6DB8D0031F8CB /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "../Launch Screen.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 				1F023CA3198F311B0051C869 /* DMAppDelegate.m */,
 				1F023CA1198F31120051C869 /* DMConstants.h */,
 				1F023C63198F2E2D0051C869 /* Main.storyboard */,
+				1FF51E7819F6DB8D0031F8CB /* Launch Screen.xib */,
 				1F023C66198F2E2D0051C869 /* Images.xcassets */,
 				1F023C59198F2E2D0051C869 /* Supporting Files */,
 			);
@@ -318,6 +321,7 @@
 			files = (
 				1F023C65198F2E2D0051C869 /* Main.storyboard in Resources */,
 				1F023C67198F2E2D0051C869 /* Images.xcassets in Resources */,
+				1FF51E7919F6DB8D0031F8CB /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
