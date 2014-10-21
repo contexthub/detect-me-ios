@@ -19,6 +19,7 @@
 
 @interface DMDetectBeaconViewController ()
 @property (nonatomic, weak) DMBeacon *selectedBeacon;
+@property (nonatomic) BOOL simulatorWarningShown;
 @end
 
 @implementation DMDetectBeaconViewController
@@ -29,14 +30,20 @@
     self.beaconArray = [NSMutableArray array];
     
     self.verboseContextHubLogging = YES; // Verbose logging shows all responses from ContextHub
+    self.simulatorWarningShown = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
 #if TARGET_IPHONE_SIMULATOR
-    // Pop a notification that this app only works on actual devices
-    [[[UIAlertView alloc] initWithTitle:@"Important!" message:@"This sample app will only detect beacons using a real iOS device" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+    
+    if (!self.simulatorWarningShown) {
+        self.simulatorWarningShown = YES;
+        
+        // Pop a notification that this app only works on actual devices
+        [[[UIAlertView alloc] initWithTitle:@"Important!" message:@"This sample app will only detect beacons using a real iOS device" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
+    }
 #endif
     
     // Do initial data sync
