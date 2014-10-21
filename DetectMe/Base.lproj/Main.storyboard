@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="wnh-zH-Ekz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="wnh-zH-Ekz">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Detect Beacon View Controller - Beacons-->
+        <!--Beacons-->
         <scene sceneID="ZOG-YV-FCX">
             <objects>
                 <tableViewController id="kp0-s6-F5L" customClass="DMDetectBeaconViewController" sceneMemberID="viewController">
@@ -20,14 +22,22 @@
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="103"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHG-KE-f5S">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHG-KE-f5S">
                                             <rect key="frame" x="27" y="3" width="160" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="bgq-Hk-oeG"/>
+                                                <constraint firstAttribute="width" constant="160" id="lKS-5y-p09"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Major:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Fi-Y1-BKu">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Major:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Fi-Y1-BKu">
                                             <rect key="frame" x="27" y="20" width="160" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="47M-c2-kBc"/>
+                                                <constraint firstAttribute="width" constant="160" id="KKd-Hv-zDW"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -52,30 +62,52 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="B9407F30-F5F8-466E-AFF9-25556B57FE6D" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="sw6-Yg-Xfd">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="B9407F30-F5F8-466E-AFF9-25556B57FE6D" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="sw6-Yg-Xfd">
                                             <rect key="frame" x="27" y="71" width="260" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="260" id="B8U-sQ-v6B"/>
+                                                <constraint firstAttribute="height" constant="21" id="FcR-Wd-lbf"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="13"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="UUID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3v0-oV-c7Y">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UUID:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3v0-oV-c7Y">
                                             <rect key="frame" x="27" y="54" width="160" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="160" id="OaA-aa-v4X"/>
+                                                <constraint firstAttribute="height" constant="21" id="tkk-5m-9s0"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Minor:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYx-bK-Jnm">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minor:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYx-bK-Jnm">
                                             <rect key="frame" x="27" y="37" width="160" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="160" id="XAS-bG-dVf"/>
+                                                <constraint firstAttribute="height" constant="21" id="p8Y-GC-qIk"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="mHG-KE-f5S" firstAttribute="top" secondItem="7AE-Ha-52C" secondAttribute="topMargin" constant="-5" id="2IK-YW-EQg"/>
                                         <constraint firstAttribute="trailing" secondItem="asu-6x-jZ2" secondAttribute="trailing" constant="4" id="3xK-0T-ZO4"/>
+                                        <constraint firstItem="3v0-oV-c7Y" firstAttribute="top" secondItem="RYx-bK-Jnm" secondAttribute="bottom" constant="-4" id="ARP-c7-mfr"/>
+                                        <constraint firstItem="2Fi-Y1-BKu" firstAttribute="leading" secondItem="7AE-Ha-52C" secondAttribute="leadingMargin" constant="19" id="Czd-sc-bVu"/>
+                                        <constraint firstItem="RYx-bK-Jnm" firstAttribute="leading" secondItem="7AE-Ha-52C" secondAttribute="leadingMargin" constant="19" id="HeK-XP-wLH"/>
                                         <constraint firstItem="asu-6x-jZ2" firstAttribute="top" secondItem="7AE-Ha-52C" secondAttribute="top" constant="20" id="IJR-Q3-X9u"/>
+                                        <constraint firstItem="3v0-oV-c7Y" firstAttribute="leading" secondItem="7AE-Ha-52C" secondAttribute="leadingMargin" constant="19" id="KBM-Sj-5Hz"/>
+                                        <constraint firstItem="sw6-Yg-Xfd" firstAttribute="top" secondItem="3v0-oV-c7Y" secondAttribute="bottom" constant="-4" id="O8R-fe-viG"/>
+                                        <constraint firstItem="2Fi-Y1-BKu" firstAttribute="top" secondItem="mHG-KE-f5S" secondAttribute="bottom" constant="-4" id="YV4-ev-7kh"/>
+                                        <constraint firstItem="mHG-KE-f5S" firstAttribute="leading" secondItem="7AE-Ha-52C" secondAttribute="leadingMargin" constant="19" id="cIU-QZ-WlC"/>
+                                        <constraint firstItem="RYx-bK-Jnm" firstAttribute="top" secondItem="2Fi-Y1-BKu" secondAttribute="bottom" constant="-4" id="gGB-CT-jsT"/>
                                         <constraint firstAttribute="trailing" secondItem="qgU-nN-Rti" secondAttribute="trailing" constant="4" id="lDw-0p-EJC"/>
                                         <constraint firstItem="qgU-nN-Rti" firstAttribute="top" secondItem="7AE-Ha-52C" secondAttribute="top" constant="3" id="oFl-jo-e2R"/>
+                                        <constraint firstItem="sw6-Yg-Xfd" firstAttribute="leading" secondItem="7AE-Ha-52C" secondAttribute="leadingMargin" constant="19" id="yiN-dq-Gud"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -111,7 +143,7 @@
             </objects>
             <point key="canvasLocation" x="1242" y="664"/>
         </scene>
-        <!--Edit Beacon View Controller - New Beacon-->
+        <!--New Beacon-->
         <scene sceneID="Cul-rm-vjT">
             <objects>
                 <tableViewController id="Hf3-6o-N7h" customClass="DMEditBeaconViewController" sceneMemberID="viewController">
@@ -267,7 +299,7 @@
             </objects>
             <point key="canvasLocation" x="190" y="664"/>
         </scene>
-        <!--Navigation Controller - Detect-->
+        <!--Detect-->
         <scene sceneID="ho2-AD-QJ1">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="quk-7V-Icr" sceneMemberID="viewController">
@@ -289,7 +321,7 @@
             </objects>
             <point key="canvasLocation" x="716" y="664"/>
         </scene>
-        <!--About Table View Controller - About-->
+        <!--About-->
         <scene sceneID="tWg-zk-E6L">
             <objects>
                 <tableViewController id="5VG-CB-vt2" customClass="DMAboutTableViewController" sceneMemberID="viewController">
@@ -311,7 +343,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="139"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ieW-xl-nCR">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ieW-xl-nCR">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="142"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <string key="text">This sample application uses ContextHub to create, retrieve, update and delete beacons on the server then respond to beacons in and out events by displaying a notification. ContextHub takes care of setting up and monitoring beacons automatically after creation and synchronization.</string>
@@ -319,6 +351,12 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ieW-xl-nCR" secondAttribute="trailing" constant="-8" id="5dW-oR-azC"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ieW-xl-nCR" secondAttribute="bottom" constant="-10.5" id="WqT-MT-gty"/>
+                                                <constraint firstItem="ieW-xl-nCR" firstAttribute="top" secondItem="f4E-Iy-0wh" secondAttribute="topMargin" constant="-8" id="fDZ-CC-7hn"/>
+                                                <constraint firstItem="ieW-xl-nCR" firstAttribute="leading" secondItem="f4E-Iy-0wh" secondAttribute="leadingMargin" constant="-8" id="hYB-Vm-hQd"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -335,7 +373,7 @@
             </objects>
             <point key="canvasLocation" x="1242" y="1343"/>
         </scene>
-        <!--Navigation Controller - About-->
+        <!--About-->
         <scene sceneID="fXW-9a-jkT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="H97-zV-p3m" sceneMemberID="viewController">
