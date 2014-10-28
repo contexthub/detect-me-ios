@@ -58,7 +58,7 @@
 
 - (void)sensorPipeline:(CCHSensorPipeline *)sensorPipeline didPostEvent:(NSDictionary *)event {
     // If you want to access event data directly after it has been posted to the server, you can do that here
-    //NSLog(@"DM: Did post event %@", event);
+    NSLog(@"DM: Did post event %@", event);
 }
 
 #pragma mark - Sensor Pipeline Data Source

@@ -5,6 +5,7 @@ DetectMe (Beacons) Release Notes
 - Update to ContextHub v1.3.3 framework
 - Update compatability for iPhone 6 and iPhone 6 Plus
 - Only show simulator warning once
+- Fix bug where proximity status did not reset to black color when beacon left range
 
 ## v1.1.3 (Build 241) - September 16, 2014
 - Update to ContextHub v1.3.1 framework

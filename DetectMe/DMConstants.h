@@ -9,7 +9,9 @@
 #ifndef DetectMe_DMConstants_h
 #define DetectMe_DMConstants_h
 
-static NSString const *DMBeaconTag = @"beacon-tag";
+//static NSString const *DMBeaconTag = @"beacon-tag";
+static NSString const *DMBeaconTag = @"pipeline";
+
 
 #define kDMAppTintColor         [UIColor colorWithRed:0.0 green:0.449 blue:0.627 alpha:1.0]
 

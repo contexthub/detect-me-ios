@@ -111,7 +111,7 @@
                     
                     if (!error) {
                         NSLog(@"DM: Successfully updated and synchronized beacon %@ on ContextHub", self.beacon.name);
-                        //[self.navigationController popViewControllerAnimated:YES];
+                        [self.navigationController popViewControllerAnimated:YES];
                     } else {
                         NSLog(@"DM: Could not synchronize update of beacon %@ on ContextHub", self.beacon.name);
                     }

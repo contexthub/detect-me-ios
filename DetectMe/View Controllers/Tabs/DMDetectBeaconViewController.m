@@ -242,6 +242,7 @@
         cell.beaconStateLabel.text = @"Out";
         cell.beaconStateLabel.textColor = [UIColor redColor];
         cell.proximityStateLabel.text = @"N/A";
+        cell.proximityStateLabel.textColor = [UIColor blackColor];
     } else {
         cell.beaconStateLabel.text = @"Unknown";
         cell.beaconStateLabel.textColor = [UIColor blueColor];

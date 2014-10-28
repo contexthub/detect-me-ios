@@ -185,21 +185,35 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aX7-d1-zHG">
+                                                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aX7-d1-zHG">
                                                     <rect key="frame" x="70" y="7" width="230" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="8rJ-VX-AJv"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="13"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="Hf3-6o-N7h" id="u6a-jH-lMx"/>
                                                     </connections>
                                                 </textField>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="UUID" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gK5-yJ-kUK">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UUID" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gK5-yJ-kUK">
                                                     <rect key="frame" x="20" y="11" width="42" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="5w7-DW-OFf"/>
+                                                        <constraint firstAttribute="width" constant="42" id="VEp-RK-lgY"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="13"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="aX7-d1-zHG" secondAttribute="centerY" constant="-0.25" id="BDm-sO-yh9"/>
+                                                <constraint firstAttribute="centerY" secondItem="gK5-yJ-kUK" secondAttribute="centerY" constant="0.25" id="JeG-Wz-BGm"/>
+                                                <constraint firstItem="aX7-d1-zHG" firstAttribute="leading" secondItem="gK5-yJ-kUK" secondAttribute="trailing" constant="8" id="WM4-O2-bPY"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="aX7-d1-zHG" secondAttribute="trailing" constant="12" id="YJ8-sj-GbR"/>
+                                                <constraint firstItem="gK5-yJ-kUK" firstAttribute="leading" secondItem="P7c-eq-W6V" secondAttribute="leadingMargin" constant="12" id="mqe-Cm-kAN"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="44" id="7tB-lR-G4o">
